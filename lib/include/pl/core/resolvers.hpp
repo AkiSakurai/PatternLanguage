@@ -15,21 +15,30 @@ namespace pl::core::resolvers {
 
         Result resolve(const std::string &path) const;
 
-        [[nodiscard]] const std::vector<std::fs::path>& getIncludePaths() const {
-            return this->m_includePaths;
+        [[nodiscard]] std::vector<std::fs::path> getIncludePaths() const {
+            auto result = m_includePaths;
+            if (!m_currentPatternPath.empty())
+                result.push_back(m_currentPatternPath.parent_path());
+
+            return result;
         }
 
-        void setIncludePaths(const std::vector<std::fs::path> &includePaths) const {
+        void setIncludePaths(const std::vector<std::fs::path> &includePaths) {
             this->m_includePaths = includePaths;
         }
 
-        api::Source* addVirtualFile(const std::string &code, const std::string &path, bool mainSource = false) const {
+        void setCurrentPatternPath(const std::fs::path &path) {
+            m_currentPatternPath = path;
+        }
+
+        api::Source* addVirtualFile(const std::string &code, const std::string &path, bool mainSource = false) {
             this->m_virtualFiles[path] = api::Source(code, path, mainSource);
             return &this->m_virtualFiles[path];
         }
 
     private:
-        mutable std::vector<std::fs::path> m_includePaths;
-        mutable std::map<std::string, api::Source> m_virtualFiles;
+        std::fs::path m_currentPatternPath;
+        std::vector<std::fs::path> m_includePaths;
+        std::map<std::string, api::Source> m_virtualFiles;
     };
 }

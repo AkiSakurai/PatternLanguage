@@ -11,7 +11,7 @@ namespace pl::core::resolvers {
 
         const std::fs::path fsPath(path);
 
-        for (const auto &item: this->m_includePaths) {
+        for (const auto &item : getIncludePaths()) {
             auto fullPath = item / fsPath;
 
             bool exists = false;

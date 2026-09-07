@@ -154,6 +154,11 @@ namespace pl {
     }
 
     std::optional<std::vector<std::shared_ptr<core::ast::ASTNode>>> PatternLanguage::parseString(const std::string &code, const std::string &source) {
+        if (auto patternPath = std::fs::path(source); wolv::io::fs::exists(patternPath))
+            this->m_fileResolver.setCurrentPatternPath(patternPath);
+        else
+            this->m_fileResolver.setCurrentPatternPath({});
+
         auto tokens = this->preprocessString(code, source);
         if (!tokens.has_value() || tokens->empty())
             return std::nullopt;
@@ -338,7 +343,7 @@ namespace pl {
         return { exitCode, std::move(result) };
     }
 
-    api::Source* PatternLanguage::addVirtualSource(const std::string &code, const std::string &source, bool mainSource) const {
+    api::Source* PatternLanguage::addVirtualSource(const std::string &code, const std::string &source, bool mainSource) {
         return this->m_fileResolver.addVirtualFile(code, source, mainSource);
     }
 

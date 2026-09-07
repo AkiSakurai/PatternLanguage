@@ -120,7 +120,7 @@ namespace pl {
          * @param mainSource whether this is the main source (the one that gets executed first)
          * @return the source that was added or that already existed
          */
-        [[nodiscard]] api::Source* addVirtualSource(const std::string& code, const std::string& source, bool mainSource = false) const;
+        [[nodiscard]] api::Source* addVirtualSource(const std::string& code, const std::string& source, bool mainSource = false);
 
         /**
          * @brief Runs a minimal lexer and preprocess step on the code and returns key-value pairs of all pragmas that were set
