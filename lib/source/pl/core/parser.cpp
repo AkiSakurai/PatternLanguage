@@ -2436,12 +2436,16 @@ namespace pl::core {
                                                                    && valueType != Token::ValueType::Character
                                                                    && valueType != Token::ValueType::String)
                     invalidType = true;
+            } else if (const auto typeDecl = dynamic_cast<ast::ASTNodeTypeDecl*>(type->getType().get()); typeDecl != nullptr) {
+                if (const auto enumDecl = dynamic_cast<ast::ASTNodeEnum*>(typeDecl->getType().get()); enumDecl == nullptr) {
+                    invalidType = true;
+                }
             } else {
                 invalidType = true;
             }
 
             if (invalidType) {
-                errorDesc("Invalid in/out parameter type.", "Allowed types are: 'char', 'bool', 'str', floating point types or integral types.");
+                errorDesc("Invalid in/out parameter type.", "Allowed types are: 'char', 'bool', 'str', floating point types, integral types, or enums.");
                 return nullptr;
             }
         }
