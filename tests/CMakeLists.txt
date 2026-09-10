@@ -7,6 +7,15 @@ project(pattern_language_tests)
 set(AVAILABLE_TESTS
         DocComments
         Strings
+        UnicodeEscapes
+        UnicodeEscapeSurrogateFail
+        UnicodeEscapeOutOfRangeFail
+        UnicodeEscapeBadDigitFail
+        UnicodeEscapeShortFail
+        UnicodeEscapeInCharFail
+        HexEscapeBadDigitFail
+        HexEscapeShortFail
+        UnknownEscapeFail
         Placement
         Structs
         Unions
@@ -63,6 +72,28 @@ set(AVAILABLE_TESTS
         InVariableDefault
         InVariableOverride
         SetEntriesSortedConsistency
+        VarRedeclarationFail
+        #VarRedeclarationInFuncFail
+        ArrayVarRedeclarationFail
+        PointerVarRedeclarationFail
+        MultiVarRedeclarationFail
+        #MultiVarMixRedeclarationFail
+        StructMemberRedeclarationFail
+        UnionMemberRedeclarationFail
+        #EnumMemberRedeclarationFail
+        BitfieldMemberRedeclarationFail
+        #BitfieldArrayMemberRedeclarationFail
+        TemplateParamRedeclarationFail
+        NonTypeTemplateParamRedeclarationFail
+        FuncRedeclarationFail
+        FuncParamRedeclarationFail
+        #RedeclarationInFuncBodyFail
+        #FuncParamAndBodyRedeclarationFail
+        AllowedRedefinitions
+        #GlobalContinueFail
+        #FunctionContinueFail
+        #GlobalBreakFail
+        #FunctionBreakFail
 )
 
 

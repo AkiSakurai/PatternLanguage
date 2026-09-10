@@ -21,9 +21,11 @@
 #include "test_patterns/test_pattern_struct_inheritance.hpp"
 #include "test_patterns/test_pattern_doc_comments.hpp"
 #include "test_patterns/test_pattern_strings.hpp"
+#include "test_patterns/test_pattern_unicode_escapes.hpp"
 #include "test_patterns/test_pattern_include.hpp"
 #include "test_patterns/test_pattern_import.hpp"
 #include "test_patterns/test_pattern_pragmas.hpp"
+#include "test_patterns/test_pattern_pragmas_pr249.hpp"
 #include "test_patterns/test_pattern_pragmas_fail.hpp"
 #include "test_patterns/test_pattern_format.hpp"
 #include "test_patterns/test_pattern_rvalues_assignment_in_struct.hpp"
@@ -39,6 +41,7 @@
 #include "test_patterns/test_pattern_dollar.hpp"
 #include "test_patterns/test_pattern_in_variable_defaults.hpp"
 #include "test_patterns/test_pattern_set_entries_sorted_consistency.hpp"
+#include "test_patterns/test_pattern_allowed_redefinitions.hpp"
 
 static pl::core::Evaluator s_evaluator;
 
@@ -51,6 +54,15 @@ std::array Tests = {
     TEST(Padding),
     TEST(DocComments),
     TEST(Strings),
+    TEST(UnicodeEscapes),
+    TEST(UnicodeEscapeSurrogateFail),
+    TEST(UnicodeEscapeOutOfRangeFail),
+    TEST(UnicodeEscapeBadDigitFail),
+    TEST(UnicodeEscapeShortFail),
+    TEST(UnicodeEscapeInCharFail),
+    TEST(HexEscapeBadDigitFail),
+    TEST(HexEscapeShortFail),
+    TEST(UnknownEscapeFail),
     TEST(SucceedingAssert),
     TEST(FailingAssert),
     TEST(Bitfields),
@@ -68,6 +80,7 @@ std::array Tests = {
     TEST(Attributes),
     TEST(StructInheritance),
     TEST(Pragmas),
+    TEST(PragmasIssue249),
     TEST(PragmasFail),
     TEST(Format),
     TEST(RValuesAssignmentInStruct),
@@ -102,4 +115,26 @@ std::array Tests = {
     TEST(InVariableDefault),
     TEST(InVariableOverride),
     TEST(SetEntriesSortedConsistency),
+    TEST(VarRedeclarationFail),
+//    TEST(VarRedeclarationInFuncFail),
+    TEST(ArrayVarRedeclarationFail),
+    TEST(PointerVarRedeclarationFail),
+    TEST(MultiVarRedeclarationFail),
+//    TEST(MultiVarMixRedeclarationFail),
+    TEST(StructMemberRedeclarationFail),
+    TEST(UnionMemberRedeclarationFail),
+//    TEST(EnumMemberRedeclarationFail),
+    TEST(BitfieldMemberRedeclarationFail),
+//    TEST(BitfieldArrayMemberRedeclarationFail),
+    TEST(TemplateParamRedeclarationFail),
+    TEST(NonTypeTemplateParamRedeclarationFail),
+    TEST(FuncRedeclarationFail),
+    TEST(FuncParamRedeclarationFail),
+//    TEST(RedeclarationInFuncBodyFail),
+//    TEST(FuncParamAndBodyRedeclarationFail),
+    TEST(AllowedRedefinitions),
+    // TEST(GlobalContinueFail),
+    // TEST(FunctionContinueFail),
+    // TEST(GlobalBreakFail),
+    // TEST(FunctionBreakFail),
 };

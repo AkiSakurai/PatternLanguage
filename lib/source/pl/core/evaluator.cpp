@@ -497,6 +497,15 @@ namespace pl::core {
                     return value;
                 else if (dynamic_cast<const ptrn::PatternPadding*>(pattern) != nullptr)
                     return value;
+                else if (const auto patternEnum = dynamic_cast<const ptrn::PatternEnum*>(pattern); patternEnum != nullptr) {
+                    const auto enumValues = patternEnum->getEnumValues();
+                    const auto patternValue = enumValues.find(value);
+                    if (patternValue == enumValues.end()) {
+                        err::E0004.throwError(fmt::format("Cannot find enum member '{}' in enum '{}'.", value, pattern->getTypeName()));
+                    }
+
+                    return patternValue->second.min;
+                }
                 else
                     err::E0004.throwError(fmt::format("Cannot cast from type 'string' to type '{}'.", pattern->getTypeName()));
             },
@@ -597,6 +606,10 @@ namespace pl::core {
                     [&](const std::string &value) {
                         if (dynamic_cast<ptrn::PatternString*>(variablePattern.get()) != nullptr)
                             variablePattern->setSize(value.size());
+                        else if (const auto patternEnum = dynamic_cast<ptrn::PatternEnum*>(variablePattern.get()); patternEnum != nullptr &&
+                            patternEnum->getEnumValues().contains(value)) {
+                            variablePattern->setSize(patternEnum->getSize());
+                        }
                         else
                             err::E0004.throwError(fmt::format("Cannot assign value of type 'string' to variable of type '{}'.", variablePattern->getTypeName()));
                     },
