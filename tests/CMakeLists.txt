@@ -62,6 +62,7 @@ set(AVAILABLE_TESTS
         Dollar
         InVariableDefault
         InVariableOverride
+        SetEntriesSortedConsistency
 )
 
 
