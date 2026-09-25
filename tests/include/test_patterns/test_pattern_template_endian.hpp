@@ -67,6 +67,31 @@ namespace pl::test {
 
                 EqBox<EqStructPayload> eqStructArg @ 0;
                 std::assert(eqStructArg.v.x == 0x89504E47, "a struct with 'be' members must stay big endian when used as a template argument");
+
+                struct AutoBox<auto t> {
+                    u32 f;
+                    u32 a = t;
+                };
+
+                be AutoBox<5> autoBe @ 0;
+                std::assert(autoBe.f == 0x89504E47, "'be' instantiation must still read file data big endian");
+                std::assert(autoBe.t == 5, "non-type template parameter must not be endian-swapped by an outer 'be'");
+                std::assert(autoBe.a == 5, "member initialized from a non-type template parameter must keep its value");
+
+                le AutoBox<5> autoLe @ 4;
+                std::assert(autoLe.f == 0x0A1A0A0D, "'le' instantiation must read file data little endian");
+                std::assert(autoLe.t == 5, "non-type template parameter must not be endian-swapped by an outer 'le'");
+
+                be AutoBox<5> autoBeLocal;
+                std::assert(autoBeLocal.t == 5, "non-type template parameter must not be endian-swapped by a local 'be' instantiation");
+                std::assert(autoBeLocal.a == 5, "member initialized from a non-type template parameter must keep its value when local");
+
+                auto endianGlobal = 16909060;
+                struct AutoGlobal<auto t> {
+                    u32 a = endianGlobal;
+                };
+                be AutoGlobal<5> autoGlobalBe;
+                std::assert(autoGlobalBe.a == 16909060, "a heap variable read under an outer 'be' must keep its value");
             )";
         }
     };
